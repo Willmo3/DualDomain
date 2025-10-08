@@ -51,16 +51,16 @@ public:
     /*
      * Wixed-Wixed operations
      */
-
     WixedForm operator+(const WixedForm &w) const;
     WixedForm operator-(const WixedForm &w) const;
     WixedForm operator*(const WixedForm &w) const;
     WixedForm operator/(const WixedForm &w) const;
 
     /*
+     * Unary Wixed operations
+     */
     WixedForm pow(uint32_t power) const;
     WixedForm abs() const;
-    */
 
     /*
      * Wixed-scalar operations

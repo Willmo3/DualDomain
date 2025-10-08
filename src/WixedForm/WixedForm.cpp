@@ -89,6 +89,17 @@ WixedForm WixedForm::operator/(const WixedForm &w) const {
 }
 
 /*
+ * Unary wixed operations
+ */
+WixedForm WixedForm::abs() const {
+    return { _affine_rep->abs(), _intersected_bounds->abs() };
+}
+WixedForm WixedForm::pow(uint32_t pow) const {
+    // TODO: fix powers.
+    return { _affine_rep->pow(pow), _intersected_bounds->pow(pow) };
+}
+
+/*
  * Internal helpers
  */
 Winterval WixedForm::interval_intersection(const WaffineForm &a, const Winterval &b) {
