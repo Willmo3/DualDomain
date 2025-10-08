@@ -19,7 +19,20 @@ void test_scalar_relational_wixed() {
     std::cout << (form >= 2) << std::endl;
 }
 
+void test_binary_wixed_ops() {
+    auto a = WixedForm(WaffineForm(Winterval(2, 3)), Winterval(-1, 2));
+    auto b = WixedForm(WaffineForm(Winterval(1, 4)), Winterval(0, 3));
+
+    std::cout << a << std::endl;
+    std::cout << b << std::endl;
+
+    std::cout << a + b << std::endl;
+    std::cout << a - b << std::endl;
+    std::cout << a * b << std::endl;
+    std::cout << a / b << std::endl;
+}
+
 int main() {
-    test_scalar_relational_wixed();
+    test_binary_wixed_ops();
     return 0;
 }

@@ -54,6 +54,7 @@ WixedForm WixedForm::operator/(const double scalar) const {
     return WixedForm(
         interval_intersection(_affine_rep->operator/(scalar), _intersected_bounds->operator/(scalar)));
 }
+// TODO: remove redundant interval_intersections
 
 /*
  * Scalar relational operations.
@@ -69,6 +70,22 @@ bool WixedForm::operator<(double scalar) const {
 }
 bool WixedForm::operator<=(double scalar) const {
     return *_intersected_bounds <= scalar;
+}
+
+/*
+ * Wixed-Wixed operations
+ */
+WixedForm WixedForm::operator-(const WixedForm &right) const {
+    return { *_affine_rep - *right._affine_rep, *_intersected_bounds - *right._intersected_bounds };
+}
+WixedForm WixedForm::operator+(const WixedForm &w) const {
+    return { *_affine_rep + *w._affine_rep, *_intersected_bounds + *w._intersected_bounds };
+}
+WixedForm WixedForm::operator*(const WixedForm &w) const {
+    return { *_affine_rep * *w._affine_rep, *_intersected_bounds * *w._intersected_bounds };
+}
+WixedForm WixedForm::operator/(const WixedForm &w) const {
+    return { *_affine_rep / *w._affine_rep, *_intersected_bounds / *w._intersected_bounds };
 }
 
 /*
