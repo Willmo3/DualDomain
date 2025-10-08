@@ -34,6 +34,12 @@ public:
      * @param affine_rep Affine form to construct from.
      */
     explicit WixedForm(const WaffineForm &affine_rep);
+
+    /**
+     * Create a new WixedForm from an interval. Affine form is constructed from interval.
+     * @param interval_rep Interval to construct from.
+     */
+    explicit WixedForm(const Winterval &interval_rep);
     ~WixedForm();
 
     /*
@@ -60,12 +66,10 @@ public:
      * Wixed-scalar operations
      */
 
-    /*
-    WixedForm &operator+(double scalar) const;
-    WixedForm &operator-(double scalar) const;
-    WixedForm &operator*(double scalar) const;
-    WixedForm &operator/(double scalar) const;
-    */
+    WixedForm operator+(double scalar) const;
+    WixedForm operator-(double scalar) const;
+    WixedForm operator*(double scalar) const;
+    WixedForm operator/(double scalar) const;
 
     /*
      * Scalar relational operations

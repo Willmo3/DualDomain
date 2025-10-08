@@ -4,6 +4,7 @@
 
 #include "WixedForm.hpp"
 
+#include <complex.h>
 #include <memory>
 
 /*
@@ -18,6 +19,10 @@ WixedForm::WixedForm(const WaffineForm &affine_rep) :
     _affine_rep(std::make_unique<WaffineForm>(affine_rep)),
     _interval_bounds(std::make_unique<Winterval>(affine_rep.to_interval())) {}
 
+WixedForm::WixedForm(const Winterval &interval_rep) :
+    _affine_rep(std::make_unique<WaffineForm>(WaffineForm(interval_rep))),
+    _interval_bounds(std::make_unique<Winterval>(interval_rep)) {}
+
 WixedForm::~WixedForm() = default;
 
 /*
@@ -31,11 +36,37 @@ const Winterval &WixedForm::interval_bounds() const {
 }
 
 /*
+ * Scalar operators
+ */
+WixedForm WixedForm::operator+(const double scalar) const {
+    return WixedForm(
+        interval_intersection(_affine_rep->operator+(scalar), _interval_bounds->operator+(scalar)));
+}
+WixedForm WixedForm::operator-(const double scalar) const {
+    return WixedForm(
+        interval_intersection(_affine_rep->operator-(scalar), _interval_bounds->operator-(scalar)));
+}
+WixedForm WixedForm::operator*(const double scalar) const {
+    return WixedForm(
+        interval_intersection(_affine_rep->operator*(scalar), _interval_bounds->operator*(scalar)));
+}
+WixedForm WixedForm::operator/(const double scalar) const {
+    return WixedForm(
+        interval_intersection(_affine_rep->operator/(scalar), _interval_bounds->operator/(scalar)));
+}
+
+/*
  * Internal helpers
  */
 Winterval WixedForm::interval_intersection(const WaffineForm &a, const Winterval &b) {
     auto min_intersect = std::max(a.to_interval().min(), b.min());
     auto max_intersect = std::min(a.to_interval().max(), b.max());
+
+    if (min_intersect > max_intersect) {
+        // This can happen e.g. when dividing by 0.
+        max_intersect = min_intersect;
+    }
+
     return {min_intersect, max_intersect};
 }
 
