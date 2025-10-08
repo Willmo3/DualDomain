@@ -13,15 +13,15 @@
 // NOTE: the repeated copying here may be cause for performance trouble later on, as new forms will be generated frequently.
 WixedForm::WixedForm(const WaffineForm &affine_rep, const Winterval &interval_rep) :
     _affine_rep(std::make_unique<WaffineForm>(affine_rep)),
-    _interval_bounds(std::make_unique<Winterval>(interval_intersection(affine_rep, interval_rep))) {}
+    _intersected_bounds(std::make_unique<Winterval>(interval_intersection(affine_rep, interval_rep))) {}
 
 WixedForm::WixedForm(const WaffineForm &affine_rep) :
     _affine_rep(std::make_unique<WaffineForm>(affine_rep)),
-    _interval_bounds(std::make_unique<Winterval>(affine_rep.to_interval())) {}
+    _intersected_bounds(std::make_unique<Winterval>(affine_rep.to_interval())) {}
 
 WixedForm::WixedForm(const Winterval &interval_rep) :
     _affine_rep(std::make_unique<WaffineForm>(WaffineForm(interval_rep))),
-    _interval_bounds(std::make_unique<Winterval>(interval_rep)) {}
+    _intersected_bounds(std::make_unique<Winterval>(interval_rep)) {}
 
 WixedForm::~WixedForm() = default;
 
@@ -32,28 +32,32 @@ const WaffineForm &WixedForm::affine_rep() const {
     return *_affine_rep;
 }
 const Winterval &WixedForm::interval_bounds() const {
-    return *_interval_bounds;
+    return *_intersected_bounds;
 }
 
 /*
  * Scalar operators
  */
 WixedForm WixedForm::operator+(const double scalar) const {
-    return WixedForm(
-        interval_intersection(_affine_rep->operator+(scalar), _interval_bounds->operator+(scalar)));
+    // Addition and subtraction are exact over intervals, and our reduced bounds are minimal, so no need for intersection.
+    return WixedForm(_intersected_bounds->operator+(scalar));
 }
 WixedForm WixedForm::operator-(const double scalar) const {
-    return WixedForm(
-        interval_intersection(_affine_rep->operator-(scalar), _interval_bounds->operator-(scalar)));
+    // Addition and subtraction are exact over intervals, and our reduced bounds are minimal, so no need for intersection.
+    return WixedForm(_intersected_bounds->operator-(scalar));
 }
 WixedForm WixedForm::operator*(const double scalar) const {
     return WixedForm(
-        interval_intersection(_affine_rep->operator*(scalar), _interval_bounds->operator*(scalar)));
+        interval_intersection(_affine_rep->operator*(scalar), _intersected_bounds->operator*(scalar)));
 }
 WixedForm WixedForm::operator/(const double scalar) const {
     return WixedForm(
-        interval_intersection(_affine_rep->operator/(scalar), _interval_bounds->operator/(scalar)));
+        interval_intersection(_affine_rep->operator/(scalar), _intersected_bounds->operator/(scalar)));
 }
+
+/*
+ * Scalar relational operations.
+ */
 
 /*
  * Internal helpers

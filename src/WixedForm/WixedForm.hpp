@@ -97,7 +97,7 @@ private:
      * Private fields
      */
     std::unique_ptr<WaffineForm> _affine_rep;
-    std::unique_ptr<Winterval> _interval_bounds;
+    std::unique_ptr<Winterval> _intersected_bounds;
 };
 
 // Utility pipe to stdout
