@@ -58,6 +58,18 @@ WixedForm WixedForm::operator/(const double scalar) const {
 /*
  * Scalar relational operations.
  */
+bool WixedForm::operator>(double scalar) const {
+    return *_intersected_bounds > scalar;
+}
+bool WixedForm::operator>=(double scalar) const {
+    return *_intersected_bounds >= scalar;
+}
+bool WixedForm::operator<(double scalar) const {
+    return *_intersected_bounds < scalar;
+}
+bool WixedForm::operator<=(double scalar) const {
+    return *_intersected_bounds <= scalar;
+}
 
 /*
  * Internal helpers

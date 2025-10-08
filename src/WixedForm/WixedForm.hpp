@@ -65,7 +65,6 @@ public:
     /*
      * Wixed-scalar operations
      */
-
     WixedForm operator+(double scalar) const;
     WixedForm operator-(double scalar) const;
     WixedForm operator*(double scalar) const;
@@ -74,13 +73,10 @@ public:
     /*
      * Scalar relational operations
      */
-
-    /*
     bool operator<(double scalar) const;
     bool operator<=(double scalar) const;
     bool operator>(double scalar) const;
     bool operator>=(double scalar) const;
-    */
 
 private:
     /*
