@@ -11,17 +11,19 @@
  * Constructors
  */
 // NOTE: the repeated copying here may be cause for performance trouble later on, as new forms will be generated frequently.
+// TODO: ensure deep copy.
 WixedForm::WixedForm(const WaffineForm &affine_rep, const Winterval &interval_rep) :
-    _affine_rep(std::make_unique<WaffineForm>(affine_rep)),
-    _intersected_bounds(std::make_unique<Winterval>(interval_intersection(affine_rep, interval_rep))) {}
+    _affine_rep(affine_rep),
+    _intersected_bounds(interval_intersection(affine_rep, interval_rep)) {}
 
 WixedForm::WixedForm(const WaffineForm &affine_rep) :
-    _affine_rep(std::make_unique<WaffineForm>(affine_rep)),
-    _intersected_bounds(std::make_unique<Winterval>(affine_rep.to_interval())) {}
+    _affine_rep(affine_rep),
+    _intersected_bounds(affine_rep.to_interval()) {}
 
 WixedForm::WixedForm(const Winterval &interval_rep) :
-    _affine_rep(std::make_unique<WaffineForm>(WaffineForm(interval_rep))),
-    _intersected_bounds(std::make_unique<Winterval>(interval_rep)) {}
+    _affine_rep(interval_rep),
+    _intersected_bounds(interval_rep) {}
+
 
 WixedForm::~WixedForm() = default;
 
@@ -29,74 +31,79 @@ WixedForm::~WixedForm() = default;
  * Accessors
  */
 const WaffineForm &WixedForm::affine_rep() const {
-    return *_affine_rep;
+    return _affine_rep;
 }
 const Winterval &WixedForm::interval_bounds() const {
-    return *_intersected_bounds;
+    return _intersected_bounds;
 }
 
 /*
  * Scalar operators
  */
 WixedForm WixedForm::operator+(const double scalar) const {
-    // Addition and subtraction are exact over intervals, and our reduced bounds are minimal, so no need for intersection.
-    return WixedForm(_intersected_bounds->operator+(scalar));
+    // Preserve correspondence of variables by updating affine representations.
+    return WixedForm(_affine_rep + scalar);
 }
 WixedForm WixedForm::operator-(const double scalar) const {
-    // Addition and subtraction are exact over intervals, and our reduced bounds are minimal, so no need for intersection.
-    return WixedForm(_intersected_bounds->operator-(scalar));
+    // Preserve correspondence of variables by updating affine representations.
+    return WixedForm(_affine_rep - scalar);
 }
 WixedForm WixedForm::operator*(const double scalar) const {
-    return WixedForm(
-        interval_intersection(_affine_rep->operator*(scalar), _intersected_bounds->operator*(scalar)));
+    // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
+    return {
+        _affine_rep * scalar,
+        interval_intersection(_affine_rep * scalar, _intersected_bounds * scalar)
+    };
 }
 WixedForm WixedForm::operator/(const double scalar) const {
-    return WixedForm(
-        interval_intersection(_affine_rep->operator/(scalar), _intersected_bounds->operator/(scalar)));
+    // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
+    return {
+        _affine_rep / scalar,
+        interval_intersection(_affine_rep / scalar, _intersected_bounds / scalar)
+    };
 }
-// TODO: remove redundant interval_intersections
 
 /*
  * Scalar relational operations.
  */
 bool WixedForm::operator>(double scalar) const {
-    return *_intersected_bounds > scalar;
+    return _intersected_bounds > scalar;
 }
 bool WixedForm::operator>=(double scalar) const {
-    return *_intersected_bounds >= scalar;
+    return _intersected_bounds >= scalar;
 }
 bool WixedForm::operator<(double scalar) const {
-    return *_intersected_bounds < scalar;
+    return _intersected_bounds < scalar;
 }
 bool WixedForm::operator<=(double scalar) const {
-    return *_intersected_bounds <= scalar;
+    return _intersected_bounds <= scalar;
 }
 
 /*
  * Wixed-Wixed operations
  */
 WixedForm WixedForm::operator-(const WixedForm &right) const {
-    return { *_affine_rep - *right._affine_rep, *_intersected_bounds - *right._intersected_bounds };
+    return { _affine_rep - right._affine_rep, _intersected_bounds - right._intersected_bounds };
 }
 WixedForm WixedForm::operator+(const WixedForm &w) const {
-    return { *_affine_rep + *w._affine_rep, *_intersected_bounds + *w._intersected_bounds };
+    return { _affine_rep + w._affine_rep, _intersected_bounds + w._intersected_bounds };
 }
 WixedForm WixedForm::operator*(const WixedForm &w) const {
-    return { *_affine_rep * *w._affine_rep, *_intersected_bounds * *w._intersected_bounds };
+    return { _affine_rep * w._affine_rep, _intersected_bounds * w._intersected_bounds };
 }
 WixedForm WixedForm::operator/(const WixedForm &w) const {
-    return { *_affine_rep / *w._affine_rep, *_intersected_bounds / *w._intersected_bounds };
+    return { _affine_rep / w._affine_rep, _intersected_bounds / w._intersected_bounds };
 }
 
 /*
  * Unary wixed operations
  */
 WixedForm WixedForm::abs() const {
-    return WixedForm(_intersected_bounds->abs());
+    return WixedForm(_intersected_bounds.abs());
 }
 WixedForm WixedForm::pow(uint32_t pow) const {
     // TODO: fix powers to be only unsigned.
-    return { _affine_rep->pow(pow), _intersected_bounds->pow(pow) };
+    return { _affine_rep.pow(pow), _intersected_bounds.pow(pow) };
 }
 
 /*

@@ -95,9 +95,10 @@ private:
 
     /*
      * Private fields
+     * Note: we use values here because large portions of the object are in memory.
      */
-    std::unique_ptr<WaffineForm> _affine_rep;
-    std::unique_ptr<Winterval> _intersected_bounds;
+    WaffineForm _affine_rep;
+    Winterval _intersected_bounds;
 };
 
 // Utility pipe to stdout
