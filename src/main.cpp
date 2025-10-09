@@ -34,7 +34,6 @@ void test_binary_wixed_ops() {
 
 void test_unary_wixed_ops() {
     auto form = WixedForm(Winterval(-10, 3));
-    // TODO: confirm abs behavior is correct.
     std::cout << form.abs() << std::endl;
     std::cout << form.pow(2) << std::endl;
 }

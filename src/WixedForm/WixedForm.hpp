@@ -60,6 +60,10 @@ public:
      * Unary Wixed operations
      */
     WixedForm pow(uint32_t power) const;
+    /**
+     * @return Absolute value of interval bounds of this form.
+     * Affine form is not considered -- abs is poorly defined for affine forms.
+     */
     WixedForm abs() const;
 
     /*

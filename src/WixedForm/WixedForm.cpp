@@ -92,10 +92,10 @@ WixedForm WixedForm::operator/(const WixedForm &w) const {
  * Unary wixed operations
  */
 WixedForm WixedForm::abs() const {
-    return { _affine_rep->abs(), _intersected_bounds->abs() };
+    return WixedForm(_intersected_bounds->abs());
 }
 WixedForm WixedForm::pow(uint32_t pow) const {
-    // TODO: fix powers.
+    // TODO: fix powers to be only unsigned.
     return { _affine_rep->pow(pow), _intersected_bounds->pow(pow) };
 }
 
