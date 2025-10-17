@@ -39,6 +39,6 @@ void test_unary_wixed_ops() {
 }
 
 int main() {
-    test_unary_wixed_ops();
+    test_scalar_wixed();
     return 0;
 }
