@@ -30,3 +30,22 @@ TEST(wixed_scalar, division) {
     result = form / 0;
     EXPECT_EQ(result.interval_bounds(), Winterval(-INFINITY, INFINITY));
 }
+
+TEST(wixed_scalar, gt) {
+    auto form = WixedForm(WaffineForm(Winterval(1, 4)), Winterval(-1, 2));
+    EXPECT_TRUE(form > 0);
+    EXPECT_FALSE(form > 1);
+}
+TEST(wixed_scalar, lt) {
+    auto form = WixedForm(WaffineForm(Winterval(1, 4)), Winterval(-1, 2));
+    EXPECT_TRUE(form < 5);
+    EXPECT_FALSE(form < 2);
+}
+TEST(wixed_scalar, lte) {
+    auto form = WixedForm(WaffineForm(Winterval(1, 4)), Winterval(-1, 2));
+    EXPECT_TRUE(form <= 2);
+}
+TEST(wixed_scalar, gte) {
+    auto form = WixedForm(WaffineForm(Winterval(1, 4)), Winterval(-1, 2));
+    EXPECT_TRUE(form >= 1);
+}
