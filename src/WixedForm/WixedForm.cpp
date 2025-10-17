@@ -41,12 +41,12 @@ const Winterval &WixedForm::interval_bounds() const {
  * Scalar operators
  */
 WixedForm WixedForm::operator+(const double scalar) const {
-    // Preserve correspondence of variables by updating affine representations.
-    return WixedForm(_affine_rep + scalar);
+    // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
+    return WixedForm(_affine_rep + scalar, _intersected_bounds + scalar);
 }
 WixedForm WixedForm::operator-(const double scalar) const {
-    // Preserve correspondence of variables by updating affine representations.
-    return WixedForm(_affine_rep - scalar);
+    // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
+    return WixedForm(_affine_rep - scalar, _intersected_bounds - scalar);
 }
 WixedForm WixedForm::operator*(const double scalar) const {
     // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
