@@ -104,6 +104,8 @@ WixedForm WixedForm::operator/(const WixedForm &w) const {
  * Unary wixed operations
  */
 WixedForm WixedForm::abs() const {
+    // Use only the interval. Abs over affine forms repeatedly reduces the magnitude of the form.
+    // This can lead to (technically sound, under our semantics) but very small magnitude results.
     return WixedForm(_intersected_bounds.abs());
 }
 WixedForm WixedForm::pow(uint32_t pow) const {
