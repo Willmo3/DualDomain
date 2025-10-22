@@ -4,7 +4,7 @@
 
 #include "WixedForm.hpp"
 
-#include <complex.h>
+#include <complex>
 #include <memory>
 
 /*

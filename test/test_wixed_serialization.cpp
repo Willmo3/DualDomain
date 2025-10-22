@@ -2,7 +2,7 @@
 // Created by will on 10/22/25.
 //
 
-#include "../src/WixedForm/WixedForm.hpp"
+#include "WixedForm/WixedForm.hpp"
 #include "cereal/archives/json.hpp"
 #include <gtest/gtest.h>
 

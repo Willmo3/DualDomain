@@ -7,8 +7,8 @@
 
 #include <memory>
 
-#include "../../lib/Waffine/WaffineForm.hpp"
-#include "../../lib/Winterval/Winterval.hpp"
+#include "Waffine/WaffineForm.hpp"
+#include "Winterval/Winterval.hpp"
 
 /**
  * Mixed affine form. Tracks both interval and affine representation of data.

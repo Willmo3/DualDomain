@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/WixedForm/WixedForm.hpp"
+#include "WixedForm/WixedForm.hpp"
 
 TEST(wixed_unop, test_wixed_abs) {
     auto form = WixedForm(Winterval(-10, 3));

@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include <gtest/gtest.h>
-#include "../src/WixedForm/WixedForm.hpp"
+#include "WixedForm/WixedForm.hpp"
 
 TEST(wixed_scalar, addition) {
     auto form = WixedForm(WaffineForm(Winterval(2, 3)), Winterval(-1, 2));
