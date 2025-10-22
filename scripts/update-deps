@@ -25,8 +25,8 @@ tar -xzf 'winterval-v0.0.5.tar.gz' && rm 'winterval-v0.0.5.tar.gz'
 if [ -d 'Waffine' ]; then
   rm -r 'Waffine'
 fi
-wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.2.tar.gz'
-tar -xzf 'waffine-v0.0.2.tar.gz' && rm 'waffine-v0.0.2.tar.gz'
+wget 'https://github.com/Willmo3/Waffine/raw/refs/heads/main/release/waffine-v0.0.3.tar.gz'
+tar -xzf 'waffine-v0.0.3.tar.gz' && rm 'waffine-v0.0.3.tar.gz'
 
 if [[ -d "cereal" ]]; then
   rm -r "cereal"

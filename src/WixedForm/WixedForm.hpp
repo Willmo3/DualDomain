@@ -82,6 +82,16 @@ public:
     bool operator>(double scalar) const;
     bool operator>=(double scalar) const;
 
+    /*
+     * Serialization support through cereal.
+     */
+    template<class Archive>
+    void serialize(Archive & archive)
+    {
+        archive( _affine_rep, _intersected_bounds );
+    }
+
+
 private:
     /*
      * Internal helpers.
