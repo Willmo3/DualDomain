@@ -101,9 +101,9 @@ public:
      * Serialization support through cereal.
      */
     template<class Archive>
-    void serialize(Archive & archive)
-    {
-        archive( _affine_rep, _intersected_bounds );
+    void serialize(Archive & archive) {
+        archive( cereal::make_nvp("affine_form", _affine_rep),
+            cereal::make_nvp("intersected_bounds", _intersected_bounds ));
     }
 
 

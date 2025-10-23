@@ -18,7 +18,7 @@ TEST(wixed_serialization, test_wixed_serialization) {
     }
 
     // Deserialize from JSON
-    WixedForm deserialized_form = WixedForm(Winterval(0, 0)); // Placeholder initialization
+    WixedForm deserialized_form = WixedForm(); // Placeholder initialization
     {
         std::istringstream is(os.str());
         cereal::JSONInputArchive archive(is);
