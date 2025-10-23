@@ -24,6 +24,9 @@ WixedForm::WixedForm(const Winterval &interval_rep) :
     _affine_rep(interval_rep),
     _intersected_bounds(interval_rep) {}
 
+WixedForm::WixedForm() :
+    _affine_rep(WaffineForm()),
+    _intersected_bounds(Winterval()) {}
 
 WixedForm::~WixedForm() = default;
 
@@ -112,6 +115,14 @@ WixedForm WixedForm::pow(uint32_t pow) const {
     // TODO: fix powers to be only unsigned.
     return { _affine_rep.pow(pow), _intersected_bounds.pow(pow) };
 }
+
+/*
+ * Public helpers
+ */
+bool WixedForm::operator==(const WixedForm &other) const {
+    return _affine_rep == other._affine_rep && _intersected_bounds == other._intersected_bounds;
+}
+
 
 /*
  * Internal helpers

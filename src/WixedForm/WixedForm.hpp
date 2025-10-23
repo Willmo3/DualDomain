@@ -40,6 +40,16 @@ public:
      * @param interval_rep Interval to construct from.
      */
     explicit WixedForm(const Winterval &interval_rep);
+
+    /**
+     * Default constructor, useful for serialization.
+     * Create an empty WixedForm by calling default constructor on subcomponents.
+     */
+    WixedForm();
+
+    /**
+     * Destructor
+     */
     ~WixedForm();
 
     /*
@@ -81,6 +91,11 @@ public:
     bool operator<=(double scalar) const;
     bool operator>(double scalar) const;
     bool operator>=(double scalar) const;
+
+    /*
+     * Assorted helpers
+     */
+    bool operator==(const WixedForm &other) const;
 
     /*
      * Serialization support through cereal.

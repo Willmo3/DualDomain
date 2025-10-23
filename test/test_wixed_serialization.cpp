@@ -30,4 +30,6 @@ TEST(wixed_serialization, test_wixed_serialization) {
     EXPECT_EQ(original_form.interval_bounds().max(), deserialized_form.interval_bounds().max());
     EXPECT_EQ(original_form.affine_rep().to_interval().min(), deserialized_form.affine_rep().to_interval().min());
     EXPECT_EQ(original_form.affine_rep().to_interval().max(), deserialized_form.affine_rep().to_interval().max());
+
+    EXPECT_EQ(original_form, deserialized_form);
 }
