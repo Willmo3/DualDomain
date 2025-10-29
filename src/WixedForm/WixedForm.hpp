@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "Waffine/WaffineForm.hpp"
+#include "Caffeine/AffineForm.hpp"
 #include "Winterval/Winterval.hpp"
 
 /**
@@ -27,13 +27,13 @@ public:
      * @param affine_rep Affine form to construct from.
      * @param interval_rep Interval to construct from.
      */
-    WixedForm(const WaffineForm &affine_rep, const Winterval &interval_rep);
+    WixedForm(const AffineForm &affine_rep, const Winterval &interval_rep);
 
     /**
      * Create a new WixedForm from an affine form. Interval is constructed from affine form.
      * @param affine_rep Affine form to construct from.
      */
-    explicit WixedForm(const WaffineForm &affine_rep);
+    explicit WixedForm(const AffineForm &affine_rep);
 
     /**
      * Create a new WixedForm from an interval. Affine form is constructed from interval.
@@ -55,7 +55,7 @@ public:
     /*
      * Accessors
      */
-    const WaffineForm &affine_rep() const;
+    const AffineForm &affine_rep() const;
     const Winterval &interval_bounds() const;
 
     /*
@@ -116,13 +116,13 @@ private:
      * @param b Interval to intersect
      * @return An affine form soundly representing the intersection of these two forms.
      */
-    static Winterval interval_intersection(const WaffineForm &a, const Winterval &b);
+    static Winterval interval_intersection(const AffineForm &a, const Winterval &b);
 
     /*
      * Private fields
      * Note: we use values here because large portions of the object are in memory.
      */
-    WaffineForm _affine_rep;
+    AffineForm _affine_rep;
     Winterval _intersected_bounds;
 };
 

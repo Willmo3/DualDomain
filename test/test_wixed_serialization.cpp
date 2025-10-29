@@ -8,7 +8,7 @@
 
 TEST(wixed_serialization, test_wixed_serialization) {
     // Create a WixedForm
-    WixedForm original_form(WaffineForm(Winterval(-2, 3)), Winterval(-1, 2));
+    WixedForm original_form(AffineForm(Winterval(-2, 3)), Winterval(-1, 2));
 
     // Serialize to JSON
     std::ostringstream os;

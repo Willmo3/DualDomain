@@ -12,11 +12,11 @@
  */
 // NOTE: the repeated copying here may be cause for performance trouble later on, as new forms will be generated frequently.
 // TODO: ensure deep copy.
-WixedForm::WixedForm(const WaffineForm &affine_rep, const Winterval &interval_rep) :
+WixedForm::WixedForm(const AffineForm &affine_rep, const Winterval &interval_rep) :
     _affine_rep(affine_rep),
     _intersected_bounds(interval_intersection(affine_rep, interval_rep)) {}
 
-WixedForm::WixedForm(const WaffineForm &affine_rep) :
+WixedForm::WixedForm(const AffineForm &affine_rep) :
     _affine_rep(affine_rep),
     _intersected_bounds(affine_rep.to_interval()) {}
 
@@ -25,7 +25,7 @@ WixedForm::WixedForm(const Winterval &interval_rep) :
     _intersected_bounds(interval_rep) {}
 
 WixedForm::WixedForm() :
-    _affine_rep(WaffineForm()),
+    _affine_rep(AffineForm()),
     _intersected_bounds(Winterval()) {}
 
 WixedForm::~WixedForm() = default;
@@ -33,7 +33,7 @@ WixedForm::~WixedForm() = default;
 /*
  * Accessors
  */
-const WaffineForm &WixedForm::affine_rep() const {
+const AffineForm &WixedForm::affine_rep() const {
     return _affine_rep;
 }
 const Winterval &WixedForm::interval_bounds() const {
@@ -127,7 +127,7 @@ bool WixedForm::operator==(const WixedForm &other) const {
 /*
  * Internal helpers
  */
-Winterval WixedForm::interval_intersection(const WaffineForm &a, const Winterval &b) {
+Winterval WixedForm::interval_intersection(const AffineForm &a, const Winterval &b) {
     auto min_intersect = std::max(a.to_interval().min(), b.min());
     auto max_intersect = std::min(a.to_interval().max(), b.max());
 
