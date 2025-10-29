@@ -5,8 +5,8 @@ echo "installing and updating Wixed dependencies"
 cd ..
 
 parentname="$(basename "$(pwd)")"
-if [ ! $parentname = "Wixed" ] && [ ! $parentname = "weducedform" ]; then
-  echo "Attempted setup from wrong directory -- move to wixed/bin!"
+if [ ! $parentname = "DualDomain" ] && [ ! $parentname = "weducedform" ]; then
+  echo "Attempted setup from wrong directory -- move to dualdomain/bin!"
   exit 1
 fi
 

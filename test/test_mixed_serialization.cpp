@@ -2,13 +2,13 @@
 // Created by will on 10/22/25.
 //
 
-#include "WixedForm/WixedForm.hpp"
+#include "MixedForm/MixedForm.hpp"
 #include "cereal/archives/json.hpp"
 #include <gtest/gtest.h>
 
-TEST(wixed_serialization, test_wixed_serialization) {
-    // Create a WixedForm
-    WixedForm original_form(AffineForm(Winterval(-2, 3)), Winterval(-1, 2));
+TEST(mixed_serialization, test_mixed_serialization) {
+    // Create a MixedForm
+    MixedForm original_form(AffineForm(Winterval(-2, 3)), Winterval(-1, 2));
 
     // Serialize to JSON
     std::ostringstream os;
@@ -18,7 +18,7 @@ TEST(wixed_serialization, test_wixed_serialization) {
     }
 
     // Deserialize from JSON
-    WixedForm deserialized_form = WixedForm(); // Placeholder initialization
+    MixedForm deserialized_form = MixedForm(); // Placeholder initialization
     {
         std::istringstream is(os.str());
         cereal::JSONInputArchive archive(is);

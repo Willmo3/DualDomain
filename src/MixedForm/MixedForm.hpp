@@ -16,41 +16,41 @@
  *
  * @author Will Morris
  */
-class WixedForm {
+class MixedForm {
 public:
     /*
      * Constructors
      */
 
     /**
-     * Create a new WixedForm from an affine form and an interval.
+     * Create a new MixedForm from an affine form and an interval.
      * @param affine_rep Affine form to construct from.
      * @param interval_rep Interval to construct from.
      */
-    WixedForm(const AffineForm &affine_rep, const Winterval &interval_rep);
+    MixedForm(const AffineForm &affine_rep, const Winterval &interval_rep);
 
     /**
-     * Create a new WixedForm from an affine form. Interval is constructed from affine form.
+     * Create a new MixedForm from an affine form. Interval is constructed from affine form.
      * @param affine_rep Affine form to construct from.
      */
-    explicit WixedForm(const AffineForm &affine_rep);
+    explicit MixedForm(const AffineForm &affine_rep);
 
     /**
-     * Create a new WixedForm from an interval. Affine form is constructed from interval.
+     * Create a new MixedForm from an interval. Affine form is constructed from interval.
      * @param interval_rep Interval to construct from.
      */
-    explicit WixedForm(const Winterval &interval_rep);
+    explicit MixedForm(const Winterval &interval_rep);
 
     /**
      * Default constructor, useful for serialization.
-     * Create an empty WixedForm by calling default constructor on subcomponents.
+     * Create an empty MixedForm by calling default constructor on subcomponents.
      */
-    WixedForm();
+    MixedForm();
 
     /**
      * Destructor
      */
-    ~WixedForm();
+    ~MixedForm();
 
     /*
      * Accessors
@@ -61,28 +61,28 @@ public:
     /*
      * Wixed-Wixed operations
      */
-    WixedForm operator+(const WixedForm &w) const;
-    WixedForm operator-(const WixedForm &w) const;
-    WixedForm operator*(const WixedForm &w) const;
-    WixedForm operator/(const WixedForm &w) const;
+    MixedForm operator+(const MixedForm &w) const;
+    MixedForm operator-(const MixedForm &w) const;
+    MixedForm operator*(const MixedForm &w) const;
+    MixedForm operator/(const MixedForm &w) const;
 
     /*
      * Unary Wixed operations
      */
-    WixedForm pow(uint32_t power) const;
+    MixedForm pow(uint32_t power) const;
     /**
      * @return Absolute value of interval bounds of this form.
      * Affine form is not considered -- abs is poorly defined for affine forms.
      */
-    WixedForm abs() const;
+    MixedForm abs() const;
 
     /*
      * Wixed-scalar operations
      */
-    WixedForm operator+(double scalar) const;
-    WixedForm operator-(double scalar) const;
-    WixedForm operator*(double scalar) const;
-    WixedForm operator/(double scalar) const;
+    MixedForm operator+(double scalar) const;
+    MixedForm operator-(double scalar) const;
+    MixedForm operator*(double scalar) const;
+    MixedForm operator/(double scalar) const;
 
     /*
      * Scalar relational operations
@@ -95,7 +95,7 @@ public:
     /*
      * Assorted helpers
      */
-    bool operator==(const WixedForm &other) const;
+    bool operator==(const MixedForm &other) const;
 
     /*
      * Serialization support through cereal.
@@ -127,7 +127,7 @@ private:
 };
 
 // Utility pipe to stdout
-std::ostream& operator<<(std::ostream& os, const WixedForm &rhs);
+std::ostream& operator<<(std::ostream& os, const MixedForm &rhs);
 
 
 #endif //WIXED_WIXEDFORM_H
