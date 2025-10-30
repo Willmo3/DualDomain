@@ -2,8 +2,8 @@
 // Created by will on 10/8/25.
 //
 
-#ifndef WIXED_WIXEDFORM_H
-#define WIXED_WIXEDFORM_H
+#ifndef DUALDOMAIN_MIXEDFORM_H
+#define DUALDOMAIN_MIXEDFORM_H
 
 #include <memory>
 
@@ -130,4 +130,4 @@ private:
 std::ostream& operator<<(std::ostream& os, const MixedForm &rhs);
 
 
-#endif //WIXED_WIXEDFORM_H
+#endif //DUALDOMAIN_MIXEDFORM_H

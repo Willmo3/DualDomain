@@ -8,5 +8,5 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out/tests)
-add_executable(test_wixed test_mixed_scalar.cpp test_mixed_binop.cpp test_mixed_unop.cpp test_mixed_serialization.cpp)
-target_link_libraries(test_wixed caffeine winterval dualdomain gtest_main)
+add_executable(test_mixed test_mixed_scalar.cpp test_mixed_binop.cpp test_mixed_unop.cpp test_mixed_serialization.cpp)
+target_link_libraries(test_mixed caffeine winterval dualdomain gtest_main)
