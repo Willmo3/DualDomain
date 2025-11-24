@@ -19,8 +19,8 @@ cd "lib"
 if [ -d 'Winterval' ]; then 
   rm -r 'Winterval'
 fi
-wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.7.tar.gz'
-tar -xzf 'winterval-v0.0.7.tar.gz' && rm 'winterval-v0.0.7.tar.gz'
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-release.tar.gz'
+tar -xzf 'winterval-release.tar.gz' && rm 'winterval-release.tar.gz'
 
 if [ -d 'Caffeine' ]; then
   rm -r 'Caffeine'
