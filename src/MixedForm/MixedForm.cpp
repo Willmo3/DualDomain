@@ -140,6 +140,6 @@ Winterval MixedForm::interval_intersection(const AffineForm &a, const Winterval 
 }
 
 std::ostream& operator<<(std::ostream& os, const MixedForm &rhs) {
-    os << rhs.interval_bounds();
+    os << "m" << rhs.interval_bounds();
     return os;
 }
