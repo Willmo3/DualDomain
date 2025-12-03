@@ -65,6 +65,10 @@ public:
     MixedForm operator-(const MixedForm &w) const;
     MixedForm operator*(const MixedForm &w) const;
     MixedForm operator/(const MixedForm &w) const;
+
+    /*
+     * Compositional operations
+     */
     /**
      * @param w Mixed form to union with this one.
      * @return A new MixedForm representing the union of this and w.
@@ -72,6 +76,23 @@ public:
      * and construct a new affine form from the interval union.
      */
     MixedForm union_with(const MixedForm &w) const;
+
+    /**
+     *
+     * @tparam N Number of splits to perform
+     * @return An array of new mixed forms over the intersected interval bounds of this form.
+     */
+    template<uint32_t N>
+    std::array<MixedForm, N> split() const {
+        auto split_intervals = _intersected_bounds.split<N>();
+        std::array<MixedForm, N> result_forms;
+
+        for (auto i = 0; i < N; i++) {
+            result_forms[i] = MixedForm(split_intervals[i]);
+        }
+
+        return result_forms;
+    }
 
     /*
      * Unary Wixed operations
@@ -121,7 +142,7 @@ private:
     /**
      * @param a Affine form to intersect
      * @param b Interval to intersect
-     * @return An affine form soundly representing the intersection of these two forms.
+     * @return An interval enclosing the intersection of these two forms.
      */
     static Winterval interval_intersection(const AffineForm &a, const Winterval &b);
 
