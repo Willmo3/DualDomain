@@ -65,6 +65,13 @@ public:
     MixedForm operator-(const MixedForm &w) const;
     MixedForm operator*(const MixedForm &w) const;
     MixedForm operator/(const MixedForm &w) const;
+    /**
+     * @param w Mixed form to union with this one.
+     * @return A new MixedForm representing the union of this and w.
+     * Since affine noise symbols will be deleted by unions, we only preserve the interval representation
+     * and construct a new affine form from the interval union.
+     */
+    MixedForm union_with(const MixedForm &w) const;
 
     /*
      * Unary Wixed operations

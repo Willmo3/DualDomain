@@ -102,6 +102,10 @@ MixedForm MixedForm::operator*(const MixedForm &w) const {
 MixedForm MixedForm::operator/(const MixedForm &w) const {
     return { _affine_rep / w._affine_rep, _intersected_bounds / w._intersected_bounds };
 }
+MixedForm MixedForm::union_with(const MixedForm &w) const {
+    // Loses noise symbol dependence, but this would happen anyways.
+    return MixedForm(interval_bounds().union_with(w.interval_bounds()));
+}
 
 /*
  * Unary wixed operations

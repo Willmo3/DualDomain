@@ -34,3 +34,9 @@ TEST(mixed_binop, test_mixed_division) {
     // NOTE: weird behavior when dividing by interval that includes 0, because the affine reps produce a tighter, but still sound, bound.
     EXPECT_EQ(result.interval_bounds(), Winterval(1, 12));
 }
+TEST(mixed_binop, test_mixed_union) {
+    auto a = MixedForm(AffineForm(Winterval(2, 3)), Winterval(-1, 2));
+    auto b = MixedForm(AffineForm(Winterval(1, 4)), Winterval(0, 3));
+    auto result = a.union_with(b);
+    EXPECT_EQ(result.interval_bounds(), Winterval(1, 3));
+}
