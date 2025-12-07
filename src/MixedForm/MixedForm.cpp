@@ -72,6 +72,28 @@ MixedForm MixedForm::operator/(const double scalar) const {
 }
 
 /*
+ * Binary mixed relational operations.
+ */
+bool MixedForm::operator==(const MixedForm &rhs) const {
+    return _affine_rep == rhs._affine_rep && _intersected_bounds == rhs._intersected_bounds;
+}
+bool MixedForm::operator!=(const MixedForm &rhs) const {
+    return !operator==(rhs);
+}
+bool MixedForm::operator>(const MixedForm &right) const {
+    return _intersected_bounds > right._intersected_bounds;
+}
+bool MixedForm::operator>=(const MixedForm &right) const {
+    return _intersected_bounds >= right._intersected_bounds;
+}
+bool MixedForm::operator<(const MixedForm &right) const {
+    return _intersected_bounds < right._intersected_bounds;
+}
+bool MixedForm::operator<=(const MixedForm &right) const {
+    return _intersected_bounds <= right._intersected_bounds;
+}
+
+/*
  * Scalar relational operations.
  */
 bool MixedForm::operator>(double scalar) const {
@@ -119,14 +141,6 @@ MixedForm MixedForm::pow(uint32_t pow) const {
     // TODO: fix powers to be only unsigned.
     return { _affine_rep.pow(pow), _intersected_bounds.pow(pow) };
 }
-
-/*
- * Public helpers
- */
-bool MixedForm::operator==(const MixedForm &other) const {
-    return _affine_rep == other._affine_rep && _intersected_bounds == other._intersected_bounds;
-}
-
 
 /*
  * Internal helpers

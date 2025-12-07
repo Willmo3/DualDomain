@@ -113,17 +113,40 @@ public:
     MixedForm operator/(double scalar) const;
 
     /*
+     * Binary comparison operations
+     */
+    /**
+     * @return whether rhs has the same affine and interval representation as this form.
+     */
+    bool operator==(const MixedForm &rhs) const;
+    /**
+     * @return whether rhs has a different affine or interval representation from this form.
+     */
+    bool operator!=(const MixedForm &rhs) const;
+    /**
+     * @return Whether the intersected bounds of this form are strictly less than those of rhs.
+     */
+    bool operator<(const MixedForm &rhs) const;
+    /**
+     * @return Whether the intersected bounds of this form are less than or equal to those of rhs.
+     */
+    bool operator<=(const MixedForm &rhs) const;
+    /**
+     * @return Whether the intersected bounds of this form are strictly greater than those of rhs.
+     */
+    bool operator>(const MixedForm &rhs) const;
+    /**
+     * @return Whether the intersected bounds of this form are greater than or equal to those of rhs.
+     */
+    bool operator>=(const MixedForm &rhs) const;
+
+    /*
      * Scalar relational operations
      */
     bool operator<(double scalar) const;
     bool operator<=(double scalar) const;
     bool operator>(double scalar) const;
     bool operator>=(double scalar) const;
-
-    /*
-     * Assorted helpers
-     */
-    bool operator==(const MixedForm &other) const;
 
     /*
      * Serialization support through cereal.
@@ -133,7 +156,6 @@ public:
         archive( cereal::make_nvp("affine_form", _affine_rep),
             cereal::make_nvp("intersected_bounds", _intersected_bounds ));
     }
-
 
 private:
     /*

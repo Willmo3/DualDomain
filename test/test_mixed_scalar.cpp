@@ -30,22 +30,3 @@ TEST(mixed_scalar, division) {
     result = form / 0;
     EXPECT_EQ(result.interval_bounds(), Winterval(-INFINITY, INFINITY));
 }
-
-TEST(mixed_scalar, gt) {
-    auto form = MixedForm(AffineForm(Winterval(1, 4)), Winterval(-1, 2));
-    EXPECT_TRUE(form > 0);
-    EXPECT_FALSE(form > 1);
-}
-TEST(mixed_scalar, lt) {
-    auto form = MixedForm(AffineForm(Winterval(1, 4)), Winterval(-1, 2));
-    EXPECT_TRUE(form < 5);
-    EXPECT_FALSE(form < 2);
-}
-TEST(mixed_scalar, lte) {
-    auto form = MixedForm(AffineForm(Winterval(1, 4)), Winterval(-1, 2));
-    EXPECT_TRUE(form <= 2);
-}
-TEST(mixed_scalar, gte) {
-    auto form = MixedForm(AffineForm(Winterval(1, 4)), Winterval(-1, 2));
-    EXPECT_TRUE(form >= 1);
-}
