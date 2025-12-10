@@ -45,7 +45,7 @@ TEST(mixed_binop, test_mixed_union) {
 }
 TEST(mixed_binop, test_mixed_split) {
     auto form = MixedForm(AffineForm(Winterval(0, 8)), Winterval(-1, 7));
-    auto splits = form.split<4>();
+    auto splits = form.split(4);
 
     EXPECT_EQ(splits[0].interval_bounds(), Winterval(0, 1.75));
     EXPECT_EQ(splits[1].interval_bounds(), Winterval(1.75, 3.5));

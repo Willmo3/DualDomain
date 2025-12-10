@@ -30,6 +30,26 @@ MixedForm::MixedForm() :
 
 MixedForm::~MixedForm() = default;
 
+MixedForm MixedForm::union_with(const MixedForm &w) const {
+    // Loses noise symbol dependence, but this would happen anyways.
+    return MixedForm(interval_bounds().union_with(w.interval_bounds()));
+}
+
+std::vector<MixedForm> MixedForm::split(uint32_t num_splits) const {
+    std::vector results = std::vector<MixedForm>();
+    results.reserve(num_splits);
+    // Since the affine form cannot be meaningfully split while preserving noise symbols,
+    // we only split over the intersected bounds.
+    auto interval_splits = _intersected_bounds.split(num_splits);
+
+    for (const Winterval& split : interval_splits) {
+        results.emplace_back(split);
+    }
+
+    return results;
+}
+
+
 /*
  * Accessors
  */
@@ -123,10 +143,6 @@ MixedForm MixedForm::operator*(const MixedForm &w) const {
 }
 MixedForm MixedForm::operator/(const MixedForm &w) const {
     return { _affine_rep / w._affine_rep, _intersected_bounds / w._intersected_bounds };
-}
-MixedForm MixedForm::union_with(const MixedForm &w) const {
-    // Loses noise symbol dependence, but this would happen anyways.
-    return MixedForm(interval_bounds().union_with(w.interval_bounds()));
 }
 
 /*

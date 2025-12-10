@@ -79,20 +79,10 @@ public:
 
     /**
      *
-     * @tparam N Number of splits to perform
-     * @return An array of new mixed forms over the intersected interval bounds of this form.
+     * @param num_splits Number of splits to perform
+     * @return A vector of new mixed forms over the intersected interval bounds of this form.
      */
-    template<uint32_t N>
-    std::array<MixedForm, N> split() const {
-        auto split_intervals = _intersected_bounds.split<N>();
-        std::array<MixedForm, N> result_forms;
-
-        for (auto i = 0; i < N; i++) {
-            result_forms[i] = MixedForm(split_intervals[i]);
-        }
-
-        return result_forms;
-    }
+    std::vector<MixedForm> split(uint32_t num_splits) const;
 
     /*
      * Unary Wixed operations
