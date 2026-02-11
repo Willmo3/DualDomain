@@ -6,27 +6,27 @@
 #include <gtest/gtest.h>
 #include "MixedForm/MixedForm.hpp"
 
+auto form = MixedForm(Winterval(2, 2));
+
 TEST(mixed_scalar, addition) {
-    auto form = MixedForm(AffineForm(Winterval(2, 3)), Winterval(-1, 2));
     auto result = form + 2.0;
-    EXPECT_EQ(result.interval_bounds(), Winterval(4, 4));
+    EXPECT_EQ(result.intersected_bounds(), Winterval(4, 4));
 }
 TEST(mixed_scalar, subtraction) {
-    auto form = MixedForm(AffineForm(Winterval(2, 3)), Winterval(-1, 2));
     auto result = form - 2.0;
-    EXPECT_EQ(result.interval_bounds(), Winterval(0, 0));
+    EXPECT_EQ(result.intersected_bounds(), Winterval(0, 0));
 }
 TEST(mixed_scalar, multiplication) {
-    auto form = MixedForm(AffineForm(Winterval(0, 3)), Winterval(-1, 2));
+    auto form = MixedForm(Winterval(0, 2));
     auto result = form * 2.0;
-    EXPECT_EQ(result.interval_bounds(), Winterval(0, 4));
+    EXPECT_EQ(result.intersected_bounds(), Winterval(0, 4));
 }
 TEST(mixed_scalar, division) {
-    auto form = MixedForm(AffineForm(Winterval(1, 4)), Winterval(-1, 2));
+    auto form = MixedForm(Winterval(1, 2));
     auto result = form / 2.0;
-    EXPECT_EQ(result.interval_bounds(), Winterval(0.5, 1));
+    EXPECT_EQ(result.intersected_bounds(), Winterval(0.5, 1));
 
-    form = MixedForm(AffineForm(Winterval(-4, 2)), Winterval(-2, 1));
+    form = MixedForm(Winterval(-2, 1));
     result = form / 0;
-    EXPECT_EQ(result.interval_bounds(), Winterval(-INFINITY, INFINITY));
+    EXPECT_EQ(result.intersected_bounds(), Winterval(-INFINITY, INFINITY));
 }
