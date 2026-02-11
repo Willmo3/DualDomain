@@ -23,6 +23,13 @@ public:
      */
 
     /**
+     * Create a new MixedForm from an affine form and an interval.
+     * @param affine_rep Affine form to construct from.
+     * @param interval_rep Interval to construct from.
+     */
+    MixedForm(const AffineForm &affine_rep, const Winterval &interval_rep);
+
+    /**
      * Create a new MixedForm from an affine form. Interval is constructed from affine form.
      * @param affine_rep Affine form to construct from.
      */
@@ -50,7 +57,7 @@ public:
      */
     const AffineForm &affine_rep() const;
     const Winterval &interval_bounds() const;
-    Winterval intersected_bounds() const;
+
     /*
      * Wixed-Wixed operations
      */
@@ -141,15 +148,6 @@ public:
     }
 
 private:
-    /**
-     * Create a new MixedForm from an affine form and an interval.
-     * This constructor is used internally but should not be exposed, since it does not check that the affine form and interval are consistent with each other.
-     *
-     * @param affine_rep Affine form to construct from.
-     * @param interval_rep Interval to construct from.
-     */
-    MixedForm(const AffineForm &affine_rep, const Winterval &interval_rep);
-
     /*
      * Internal helpers.
      */
@@ -165,7 +163,7 @@ private:
      * Note: we use values here because large portions of the object are in memory.
      */
     AffineForm _affine_rep;
-    Winterval _interval_bounds;
+    Winterval _intersected_bounds;
 };
 
 // Utility pipe to stdout

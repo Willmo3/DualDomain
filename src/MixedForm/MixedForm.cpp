@@ -14,16 +14,19 @@
 // TODO: ensure deep copy.
 MixedForm::MixedForm(const AffineForm &affine_rep, const Winterval &interval_rep) :
     _affine_rep(affine_rep),
-    _interval_bounds(interval_rep) {}
+    _intersected_bounds(interval_intersection(affine_rep, interval_rep)) {}
+
 MixedForm::MixedForm(const AffineForm &affine_rep) :
     _affine_rep(affine_rep),
-    _interval_bounds(affine_rep.to_interval()) {}
+    _intersected_bounds(affine_rep.to_interval()) {}
+
 MixedForm::MixedForm(const Winterval &interval_rep) :
     _affine_rep(interval_rep),
-    _interval_bounds(interval_rep) {}
+    _intersected_bounds(interval_rep) {}
+
 MixedForm::MixedForm() :
     _affine_rep(AffineForm()),
-    _interval_bounds(Winterval()) {}
+    _intersected_bounds(Winterval()) {}
 
 MixedForm::~MixedForm() = default;
 
@@ -37,7 +40,7 @@ std::vector<MixedForm> MixedForm::split(uint32_t num_splits) const {
     results.reserve(num_splits);
     // Since the affine form cannot be meaningfully split while preserving noise symbols,
     // we only split over the intersected bounds.
-    auto interval_splits = _interval_bounds.split(num_splits);
+    auto interval_splits = _intersected_bounds.split(num_splits);
 
     for (const Winterval& split : interval_splits) {
         results.emplace_back(split);
@@ -54,47 +57,37 @@ const AffineForm &MixedForm::affine_rep() const {
     return _affine_rep;
 }
 const Winterval &MixedForm::interval_bounds() const {
-    return _interval_bounds;
+    return _intersected_bounds;
 }
-Winterval MixedForm::intersected_bounds() const {
-    auto min_intersect = std::max(_affine_rep.to_interval().min(), _interval_bounds.min());
-    auto max_intersect = std::min(_affine_rep.to_interval().max(), _interval_bounds.max());
 
-    if (min_intersect > max_intersect) {
-        // This can happen e.g. when dividing by 0.
-        max_intersect = min_intersect;
-    }
-
-    return {min_intersect, max_intersect};
-}
 /*
  * Scalar operators
  */
 MixedForm MixedForm::operator+(const double scalar) const {
     // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
-    return { _affine_rep + scalar, _interval_bounds + scalar };
+    return { _affine_rep + scalar, _intersected_bounds + scalar };
 }
 MixedForm MixedForm::operator-(const double scalar) const {
     // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
-    return { _affine_rep - scalar, _interval_bounds - scalar };
+    return { _affine_rep - scalar, _intersected_bounds - scalar };
 }
 MixedForm MixedForm::operator*(const double scalar) const {
     // Must propagate affine form, even if interval tighter, to preserve relationship between vars.
     return {
         _affine_rep * scalar,
-        interval_intersection(_affine_rep * scalar, _interval_bounds * scalar)
+        interval_intersection(_affine_rep * scalar, _intersected_bounds * scalar)
     };
 }
 MixedForm MixedForm::operator/(const double scalar) const {
     // Divison by 0 ill defined for affine forms.
     if (scalar == 0) {
-        return MixedForm(_interval_bounds / scalar);
+        return MixedForm(_intersected_bounds / scalar);
     }
 
     // Otherwise, propagate affine form, even if interval tighter, to preserve relationship between vars.
     return {
         _affine_rep / scalar,
-        interval_intersection(_affine_rep / scalar, _interval_bounds / scalar)
+        interval_intersection(_affine_rep / scalar, _intersected_bounds / scalar)
     };
 }
 
@@ -102,54 +95,54 @@ MixedForm MixedForm::operator/(const double scalar) const {
  * Binary mixed relational operations.
  */
 bool MixedForm::operator==(const MixedForm &rhs) const {
-    return _affine_rep == rhs._affine_rep && _interval_bounds == rhs._interval_bounds;
+    return _affine_rep == rhs._affine_rep && _intersected_bounds == rhs._intersected_bounds;
 }
 bool MixedForm::operator!=(const MixedForm &rhs) const {
     return !operator==(rhs);
 }
 bool MixedForm::operator>(const MixedForm &right) const {
-    return intersected_bounds() > right.intersected_bounds();
+    return _intersected_bounds > right._intersected_bounds;
 }
 bool MixedForm::operator>=(const MixedForm &right) const {
-    return intersected_bounds() >= right.intersected_bounds();
+    return _intersected_bounds >= right._intersected_bounds;
 }
 bool MixedForm::operator<(const MixedForm &right) const {
-    return intersected_bounds() < right.intersected_bounds();
+    return _intersected_bounds < right._intersected_bounds;
 }
 bool MixedForm::operator<=(const MixedForm &right) const {
-    return intersected_bounds() <= right.intersected_bounds();
+    return _intersected_bounds <= right._intersected_bounds;
 }
 
 /*
  * Scalar relational operations.
  */
 bool MixedForm::operator>(double scalar) const {
-    return intersected_bounds() > scalar;
+    return _intersected_bounds > scalar;
 }
 bool MixedForm::operator>=(double scalar) const {
-    return intersected_bounds() >= scalar;
+    return _intersected_bounds >= scalar;
 }
 bool MixedForm::operator<(double scalar) const {
-    return intersected_bounds() < scalar;
+    return _intersected_bounds < scalar;
 }
 bool MixedForm::operator<=(double scalar) const {
-    return intersected_bounds() <= scalar;
+    return _intersected_bounds <= scalar;
 }
 
 /*
  * Wixed-Wixed operations
  */
 MixedForm MixedForm::operator-(const MixedForm &right) const {
-    return { _affine_rep - right._affine_rep, _interval_bounds - right._interval_bounds };
+    return { _affine_rep - right._affine_rep, _intersected_bounds - right._intersected_bounds };
 }
 MixedForm MixedForm::operator+(const MixedForm &w) const {
-    return { _affine_rep + w._affine_rep, _interval_bounds + w._interval_bounds };
+    return { _affine_rep + w._affine_rep, _intersected_bounds + w._intersected_bounds };
 }
 MixedForm MixedForm::operator*(const MixedForm &w) const {
-    return { _affine_rep * w._affine_rep, _interval_bounds * w._interval_bounds };
+    return { _affine_rep * w._affine_rep, _intersected_bounds * w._intersected_bounds };
 }
 MixedForm MixedForm::operator/(const MixedForm &w) const {
-    return { _affine_rep / w._affine_rep, _interval_bounds / w._interval_bounds };
+    return { _affine_rep / w._affine_rep, _intersected_bounds / w._intersected_bounds };
 }
 
 /*
@@ -158,11 +151,11 @@ MixedForm MixedForm::operator/(const MixedForm &w) const {
 MixedForm MixedForm::abs() const {
     // Use only the interval. Abs over affine forms repeatedly reduces the magnitude of the form.
     // This can lead to (technically sound, under our semantics) but very small magnitude results.
-    return MixedForm(_interval_bounds.abs());
+    return MixedForm(_intersected_bounds.abs());
 }
 MixedForm MixedForm::pow(uint32_t pow) const {
     // TODO: fix powers to be only unsigned.
-    return { _affine_rep.pow(pow), _interval_bounds.pow(pow) };
+    return { _affine_rep.pow(pow), _intersected_bounds.pow(pow) };
 }
 
 /*
