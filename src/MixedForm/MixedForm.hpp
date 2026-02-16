@@ -57,6 +57,10 @@ public:
      */
     const AffineForm &affine_rep() const;
     const Winterval &interval_bounds() const;
+    /**
+     * @return the radius of the intersection of interval and affine bounds.
+     */
+    double radius() const;
 
     /*
      * Wixed-Wixed operations

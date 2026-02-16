@@ -41,11 +41,9 @@ std::vector<MixedForm> MixedForm::split(uint32_t num_splits) const {
     // Since the affine form cannot be meaningfully split while preserving noise symbols,
     // we only split over the intersected bounds.
     auto interval_splits = _intersected_bounds.split(num_splits);
-
     for (const Winterval& split : interval_splits) {
         results.emplace_back(split);
     }
-
     return results;
 }
 
@@ -58,6 +56,9 @@ const AffineForm &MixedForm::affine_rep() const {
 }
 const Winterval &MixedForm::interval_bounds() const {
     return _intersected_bounds;
+}
+double MixedForm::radius() const {
+    return _intersected_bounds.radius();
 }
 
 /*
