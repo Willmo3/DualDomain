@@ -9,5 +9,5 @@ FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out/tests)
 add_executable(test_mixed test_mixed_scalar.cpp test_mixed_binop.cpp test_mixed_unop.cpp
-        test_mixed_comparison.cpp)
+        test_mixed_comparison.cpp test_mixed_misc.cpp)
 target_link_libraries(test_mixed caffeine winterval dualdomain gtest_main)

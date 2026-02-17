@@ -60,6 +60,12 @@ const Winterval &MixedForm::interval_bounds() const {
 double MixedForm::radius() const {
     return _intersected_bounds.radius();
 }
+double MixedForm::min() const {
+    return _intersected_bounds.min();
+}
+double MixedForm::max() const {
+    return _intersected_bounds.max();
+}
 
 /*
  * Scalar operators

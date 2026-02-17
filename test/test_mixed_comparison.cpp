@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "MixedForm/MixedForm.hpp"
+#include "../src/MixedForm.hpp"
 
 TEST(mixed_comparison, binary_equality) {
     auto a = MixedForm(AffineForm(Winterval(1, 4)), Winterval(-1, 2));

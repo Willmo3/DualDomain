@@ -57,6 +57,8 @@ public:
      */
     const AffineForm &affine_rep() const;
     const Winterval &interval_bounds() const;
+    double min() const;
+    double max() const;
     /**
      * @return the radius of the intersection of interval and affine bounds.
      */

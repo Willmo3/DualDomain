@@ -1,7 +1,7 @@
 
 #include <fstream>
 
-#include "MixedForm/MixedForm.hpp"
+#include "MixedForm.hpp"
 
 int main() {
     return 0;
